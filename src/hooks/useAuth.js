@@ -6,19 +6,17 @@ import {
   signInWithEmailAndPassword, 
   signOut as firebaseSignOut,
   onAuthStateChanged,
-  updateProfile,
-  User
+  updateProfile
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
-import { User as AppUser } from '@/lib/types';
 
-// Define a simple function that creates and returns the auth object
+// Simple JavaScript version without TypeScript
 export function useAuth() {
-  const [user, setUser] = useState<User | null>(null);
-  const [userData, setUserData] = useState<AppUser | null>(null);
+  const [user, setUser] = useState(null);
+  const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState(null);
 
   // Listen for auth state changes
   useEffect(() => {
@@ -27,14 +25,12 @@ export function useAuth() {
       
       if (firebaseUser) {
         try {
-          // Get user data from Firestore
           const userDocRef = doc(db, 'users', firebaseUser.uid);
           const userDoc = await getDoc(userDocRef);
           
           if (userDoc.exists()) {
-            setUserData(userDoc.data() as AppUser);
+            setUserData(userDoc.data());
           } else {
-            // This might happen if Firebase Auth user exists but Firestore document doesn't
             console.warn('User document not found in Firestore');
             setUserData(null);
           }
@@ -57,27 +53,17 @@ export function useAuth() {
   }, []);
 
   // Register a new user
-  const register = async (
-    email: string, 
-    password: string, 
-    firstName: string, 
-    lastName: string,
-    company: string,
-    phone: string
-  ) => {
+  const register = async (email, password, firstName, lastName, company, phone) => {
     try {
       setError(null);
       
-      // Create user in Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const firebaseUser = userCredential.user;
       
-      // Update display name
       await updateProfile(firebaseUser, {
         displayName: `${firstName} ${lastName}`
       });
       
-      // Create user document in Firestore
       const userDocRef = doc(db, 'users', firebaseUser.uid);
       await setDoc(userDocRef, {
         uid: firebaseUser.uid,
@@ -86,7 +72,7 @@ export function useAuth() {
         lastName: lastName,
         company: company,
         phone: phone,
-        role: 'customer', // Default role
+        role: 'customer',
         paymentMethods: [],
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp()
@@ -101,7 +87,7 @@ export function useAuth() {
   };
 
   // Sign in existing user
-  const signIn = async (email: string, password: string) => {
+  const signIn = async (email, password) => {
     try {
       setError(null);
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -126,7 +112,7 @@ export function useAuth() {
   };
 
   // Update user profile
-  const updateUserProfile = async (data: Partial<AppUser>) => {
+  const updateUserProfile = async (data) => {
     try {
       setError(null);
       
@@ -143,7 +129,7 @@ export function useAuth() {
       // Refresh user data
       const updatedDoc = await getDoc(userDocRef);
       if (updatedDoc.exists()) {
-        setUserData(updatedDoc.data() as AppUser);
+        setUserData(updatedDoc.data());
       }
       
       return true;

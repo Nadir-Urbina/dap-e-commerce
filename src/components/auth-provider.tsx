@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { User } from 'firebase/auth';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuthHook } from '@/hooks/authHook';
 import { User as AppUser } from '@/lib/types';
 
 interface AuthContextType {
@@ -26,7 +26,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const auth = useAuth();
+  const auth = useAuthHook();
 
   return (
     <AuthContext.Provider value={auth}>
