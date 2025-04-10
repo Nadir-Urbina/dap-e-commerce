@@ -171,4 +171,8 @@ export function useAuth() {
     signOut,
     updateUserProfile
   };
-} 
+}
+
+// Make sure the hook is exported properly
+export { useAuth };
+export default useAuth; 
