@@ -24,7 +24,8 @@ import {
   Clock,
   Box,
   Wrench,
-  LineChart
+  LineChart,
+  Factory
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -106,28 +107,22 @@ export default function DashboardLayout({
               <span>Orders</span>
             </Link>
 
-            {/* Production Management */}
-            <Link
-              href="/dashboard/daily-mixes"
-              className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-gray-300 transition-all hover:text-[#EFCD00]",
-                pathname?.startsWith("/dashboard/daily-mixes") && "bg-[#EFCD00]/10 font-medium text-[#EFCD00]"
-              )}
-            >
-              <Layers className="h-4 w-4" />
-              <span>Daily Mixes</span>
-            </Link>
-
-            <Link
-              href="/dashboard/schedule"
-              className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-gray-300 transition-all hover:text-[#EFCD00]",
-                pathname?.startsWith("/dashboard/schedule") && "bg-[#EFCD00]/10 font-medium text-[#EFCD00]"
-              )}
-            >
-              <Calendar className="h-4 w-4" />
-              <span>Production Schedule</span>
-            </Link>
+            {/* Plants */}
+            <div className="pt-2">
+              <p className="mb-2 px-2 text-xs font-semibold tracking-tight text-gray-500">
+                PLANTS
+              </p>
+              <Link
+                href="/dashboard/plants"
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-gray-300 transition-all hover:text-[#EFCD00]",
+                  pathname?.startsWith("/dashboard/plants") && "bg-[#EFCD00]/10 font-medium text-[#EFCD00]"
+                )}
+              >
+                <Factory className="h-4 w-4" />
+                <span>Plants</span>
+              </Link>
+            </div>
 
             {/* Product Management */}
             <div className="pt-2">

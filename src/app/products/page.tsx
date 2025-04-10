@@ -143,20 +143,29 @@ export default function ProductsPage() {
             </DropdownMenu>
           </div>
 
-          <TabsContent value="all" className="mt-0">
-            <h2 className="mb-4 text-xl font-semibold">All Products</h2>
-            {renderProductsList(products, loading, error)}
-          </TabsContent>
+          <Tabs value={activeTab} defaultValue="all">
+            {/* Hide duplicate tabs list */}
+            <TabsList className="hidden">
+              <TabsTrigger value="all">All Products</TabsTrigger>
+              <TabsTrigger value="asphalt_mix">Asphalt Mixes</TabsTrigger>
+              <TabsTrigger value="secondary">Secondary Products</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="all" className="mt-0">
+              <h2 className="mb-4 text-xl font-semibold">All Products</h2>
+              {renderProductsList(products, loading, error)}
+            </TabsContent>
 
-          <TabsContent value="asphalt_mix" className="mt-0">
-            <h2 className="mb-4 text-xl font-semibold">Asphalt Mixes</h2>
-            {renderProductsList(products, loading, error)}
-          </TabsContent>
+            <TabsContent value="asphalt_mix" className="mt-0">
+              <h2 className="mb-4 text-xl font-semibold">Asphalt Mixes</h2>
+              {renderProductsList(products, loading, error)}
+            </TabsContent>
 
-          <TabsContent value="secondary" className="mt-0">
-            <h2 className="mb-4 text-xl font-semibold">Secondary Products</h2>
-            {renderProductsList(products, loading, error)}
-          </TabsContent>
+            <TabsContent value="secondary" className="mt-0">
+              <h2 className="mb-4 text-xl font-semibold">Secondary Products</h2>
+              {renderProductsList(products, loading, error)}
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </div>
